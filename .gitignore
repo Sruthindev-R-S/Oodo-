@@ -15,3 +15,8 @@ npm-debug.log*
 # OS specific files
 .DS_Store
 Thumbs.db
+
+# Developer & Agent scripts (Excluding from GitHub)
+.agent-rules/
+verify.js
+init-env.sh
