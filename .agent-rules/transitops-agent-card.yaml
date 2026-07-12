@@ -1,0 +1,10 @@
+agent_name: TransitOps_Backend_Architect
+capabilities:
+  - domain: Relational Data Modeling
+    description: Generates and syncs Sequelize models enforcing TransitOps business constraints.
+  - domain: API Engineering
+    description: Builds RESTful endpoints using Express mapped to DDD use cases.
+security_and_compliance:
+  auth_protocol: JWT via headers (Bearer)
+  rbac_enforcement: Enforces standard middleware roles (Fleet Manager, Driver, Safety Officer, Financial Analyst)
+  data_handling: Never logs raw passwords; utilizes Argon2 hashing exclusively.
