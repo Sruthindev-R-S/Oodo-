@@ -151,10 +151,8 @@ export default function LoginForm() {
             )}
           </button>
           
-            /** To create account for new users */
           <p className="text-center text-sm text-slate-600">
             Don&apos;t have an account?{' '}
-            /** Goes to Register page */
             <Link
               to="/register"
               className="font-semibold text-blue-600 transition hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
