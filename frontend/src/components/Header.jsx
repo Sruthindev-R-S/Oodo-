@@ -22,8 +22,8 @@ const Header = ({ currentRole, setCurrentRole, notificationsCount, setNotificati
             <MapPin size={18} />
           </div>
           <div className="location-text">
-            <span className="text-gray-500">Operations HQ</span>
-            <span className="text-blue-500 font-bold text-xs">Kaba, Kogi State</span>
+            <span className="text-caption">Operations HQ</span>
+            <span className="text-dropdown">Kaba, Kogi State</span>
           </div>
         </div>
 
@@ -35,7 +35,7 @@ const Header = ({ currentRole, setCurrentRole, notificationsCount, setNotificati
             onClick={onDispatchClick}
           >
             <Navigation size={14} />
-            <span>Dispatch</span>
+            <span className="text-button">Dispatch</span>
           </button>
 
           {/* Notifications Dropdown */}
@@ -56,8 +56,8 @@ const Header = ({ currentRole, setCurrentRole, notificationsCount, setNotificati
             {alertsOpen && (
               <div className="role-options absolute right-0 mt-2 w-80 bg-[#131A2C] shadow-lg rounded-xl border border-gray-800 z-50 overflow-hidden text-white">
                 <div className="p-3 bg-[#1C253B] border-b border-gray-800 flex justify-between items-center">
-                  <h3 className="font-bold text-xs">Operational Alerts</h3>
-                  <span className="text-[9px] bg-red-500/20 text-red-400 px-1.5 py-0.5 rounded font-bold uppercase">Safety</span>
+                  <h3 className="text-table-header">Operational Alerts</h3>
+                  <span className="text-status-badge bg-red-500/20 text-red-400 px-1.5 py-0.5 rounded uppercase">Safety</span>
                 </div>
                 <div className="max-h-60 overflow-y-auto">
                   {alerts.length === 0 ? (
@@ -95,16 +95,16 @@ const Header = ({ currentRole, setCurrentRole, notificationsCount, setNotificati
               }}
             >
               {/* Avatar indicator */}
-              <div className="bg-blue-600 text-white text-[11px] font-bold w-6 h-6 rounded-full flex items-center justify-center">
+              <div className="bg-blue-600 text-white text-status-badge w-6 h-6 rounded-full flex items-center justify-center">
                 RK
               </div>
-              <span className="text-white text-xs font-bold">Raven K.</span>
+              <span className="text-profile-name">Raven K.</span>
               <ChevronDown size={14} className="text-gray-400" />
             </button>
 
             {roleOpen && (
               <div className="role-options bg-[#131A2C] border border-gray-800">
-                <div className="p-2.5 bg-[#1C253B] border-b border-gray-800 text-[9px] uppercase font-bold text-gray-400 tracking-wider">
+                <div className="p-2.5 bg-[#1C253B] border-b border-gray-800 text-caption uppercase tracking-wider">
                   Switch Active Role
                 </div>
                 {[

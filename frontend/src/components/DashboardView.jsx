@@ -314,12 +314,24 @@ const DashboardView = ({ currentRole, dispatchModalOpen, setDispatchModalOpen })
   const currentTrip = trips.find(t => t.vehicleId === selectedVehicle?.id && t.status === 'Dispatched');
   const activeDriver = currentTrip ? drivers.find(d => d.id === currentTrip.driverId) : null;
   const activeMaintenanceLog = maintenance.find(m => m.vehicleId === selectedVehicle?.id && m.status === 'In Shop');
+  const kpiHelpers = {
+    activeVehicles: 'Fleet online',
+    availableVehicles: 'Ready for dispatch',
+    inShopVehicles: 'In maintenance',
+    activeTrips: 'Currently moving',
+    pendingTrips: 'Waiting to launch',
+    driversOnDuty: 'Available operators',
+    fleetUtilization: 'Operational efficiency'
+  };
 
   return (
     <div className={`dashboard-grid ${selectedVehicle ? 'has-selection' : 'no-selection'}`}>
       
       {/* --- LEFT / CENTER SECTION --- */}
       <div className="flex flex-col">
+        <div className="px-4 pt-2 pb-4">
+          <h1 className="text-page-title">Dashboard</h1>
+        </div>
         
         {/* Search header (mockup style) */}
         <div className="search-container mb-4">
@@ -429,30 +441,37 @@ const DashboardView = ({ currentRole, dispatchModalOpen, setDispatchModalOpen })
           <div className="kpi-card green-border">
             <span className="kpi-label">Active Vehicles</span>
             <span className="kpi-val">{kpis.activeVehicles}</span>
+            <span className="text-caption">{kpiHelpers.activeVehicles}</span>
           </div>
           <div className="kpi-card green-border">
             <span className="kpi-label">Available Vehicles</span>
             <span className="kpi-val">{kpis.availableVehicles}</span>
+            <span className="text-caption">{kpiHelpers.availableVehicles}</span>
           </div>
           <div className="kpi-card orange-border">
             <span className="kpi-label">Vehicles in Maint.</span>
             <span className="kpi-val">{String(kpis.inShopVehicles).padStart(2, '0')}</span>
+            <span className="text-caption">{kpiHelpers.inShopVehicles}</span>
           </div>
           <div className="kpi-card blue-border">
             <span className="kpi-label">Active Trips</span>
             <span className="kpi-val">{kpis.activeTrips}</span>
+            <span className="text-caption">{kpiHelpers.activeTrips}</span>
           </div>
           <div className="kpi-card blue-border">
             <span className="kpi-label">Pending Trips</span>
             <span className="kpi-val">{String(kpis.pendingTrips).padStart(2, '0')}</span>
+            <span className="text-caption">{kpiHelpers.pendingTrips}</span>
           </div>
           <div className="kpi-card blue-border">
             <span className="kpi-label">Drivers On Duty</span>
             <span className="kpi-val">{kpis.driversOnDuty}</span>
+            <span className="text-caption">{kpiHelpers.driversOnDuty}</span>
           </div>
           <div className="kpi-card green-border">
             <span className="kpi-label">Fleet Utilization</span>
             <span className="kpi-val">{kpis.fleetUtilization}%</span>
+            <span className="text-caption">{kpiHelpers.fleetUtilization}</span>
           </div>
         </div>
 
@@ -461,7 +480,7 @@ const DashboardView = ({ currentRole, dispatchModalOpen, setDispatchModalOpen })
           
           {/* Recent Trips Card */}
           <div className="section-card">
-            <h3 className="section-card-title flex items-center gap-2">
+            <h3 className="section-card-title text-section-title flex items-center gap-2">
               <Clock size={16} className="text-blue-500" />
               Recent Trips
             </h3>
@@ -513,7 +532,7 @@ const DashboardView = ({ currentRole, dispatchModalOpen, setDispatchModalOpen })
 
           {/* Vehicle Status Progress Ratio Card */}
           <div className="section-card">
-            <h3 className="section-card-title flex items-center gap-2">
+            <h3 className="section-card-title text-section-title flex items-center gap-2">
               <SlidersHorizontal size={16} className="text-emerald-500" />
               Vehicle Status Ratio
             </h3>
@@ -566,8 +585,8 @@ const DashboardView = ({ currentRole, dispatchModalOpen, setDispatchModalOpen })
         {/* Lower Assets Registry Section */}
         <div className="vehicles-section">
           <div className="section-header">
-            <span className="section-title">Fleet Assets Registry ({filteredVehicles.length})</span>
-            <button className="view-all-link" onClick={() => setNewVehicleModalOpen(true)}>
+            <span className="section-title text-section-title">Fleet Assets Registry ({filteredVehicles.length})</span>
+            <button className="view-all-link text-button-secondary" onClick={() => setNewVehicleModalOpen(true)}>
               + Add Fleet Asset
             </button>
           </div>
@@ -672,8 +691,8 @@ const DashboardView = ({ currentRole, dispatchModalOpen, setDispatchModalOpen })
             </div>
 
             <div className="text-center mb-6">
-              <h1 className="text-lg font-black text-white">{selectedVehicle.name}</h1>
-              <p className="text-xs text-gray-400 mt-1">{selectedVehicle.type} • Reg ID: {selectedVehicle.id} • Region: {selectedVehicle.region}</p>
+              <h1 className="text-section-title">{selectedVehicle.name}</h1>
+              <p className="text-caption mt-1">{selectedVehicle.type} • Reg ID: {selectedVehicle.id} • Region: {selectedVehicle.region}</p>
             </div>
 
             {/* Spec Cards grid */}
@@ -702,22 +721,25 @@ const DashboardView = ({ currentRole, dispatchModalOpen, setDispatchModalOpen })
             </div>
 
             {/* Technical details block */}
-            <div className="bg-[#1C253B] p-4 rounded-xl border border-gray-800 mb-6 text-white">
-              <div className="flex justify-between py-2 border-b border-gray-800 text-xs">
-                <span className="text-gray-400">Odometer</span>
-                <span className="font-bold">{selectedVehicle.odometer} km</span>
+            <div className="detail-metrics-grid mb-6">
+              <div className="metric-card">
+                <div className="metric-icon"><Clock size={14} /></div>
+                <span className="metric-value">{selectedVehicle.odometer} km</span>
+                <span className="metric-caption">Odometer</span>
               </div>
-              <div className="flex justify-between py-2 border-b border-gray-800 text-xs">
-                <span className="text-gray-400">Payload Capacity</span>
-                <span className="font-bold">{selectedVehicle.maxCapacity} kg</span>
+              <div className="metric-card">
+                <div className="metric-icon"><Navigation size={14} /></div>
+                <span className="metric-value">{selectedVehicle.maxCapacity} kg</span>
+                <span className="metric-caption">Payload</span>
               </div>
-              <div className="flex justify-between py-2 border-b border-gray-800 text-xs">
-                <span className="text-gray-400">Acquisition Value</span>
-                <span className="font-bold">${selectedVehicle.acquisitionCost.toLocaleString()}</span>
+              <div className="metric-card">
+                <div className="metric-icon"><DollarSign size={14} /></div>
+                <span className="metric-value">${selectedVehicle.acquisitionCost.toLocaleString()}</span>
+                <span className="metric-caption">Asset Value</span>
               </div>
-              <div className="flex justify-between py-2 text-xs">
-                <span className="text-gray-400">Calculated ROI</span>
-                <span className="font-bold text-blue-400">
+              <div className="metric-card metric-card-wide">
+                <div className="metric-icon"><TrendingUp size={14} /></div>
+                <span className="metric-value text-blue-600">
                   {(() => {
                     const vehTrips = trips.filter(t => t.vehicleId === selectedVehicle.id && t.status === 'Completed');
                     const revenue = vehTrips.reduce((acc, curr) => acc + (curr.revenue || 0), 0);
@@ -727,43 +749,44 @@ const DashboardView = ({ currentRole, dispatchModalOpen, setDispatchModalOpen })
                     return roi > 0 ? `+${roi.toFixed(1)}%` : `${roi.toFixed(1)}%`;
                   })()}
                 </span>
+                <span className="metric-caption">Calculated ROI</span>
               </div>
             </div>
 
             {/* Route Map tracker */}
-            <h3 className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2">Active Trip Route Progress</h3>
+            <h3 className="text-table-header mb-3">Active Trip Route Progress</h3>
             <div className="route-visualizer">
               <div className="route-line"></div>
               
               <div className="route-step">
                 <div className="route-dot"></div>
                 <div className="route-info">
-                  <span className="route-label">Departure Source</span>
-                  <span className="route-val text-xs">{currentTrip ? currentTrip.source : 'Operations Depot'}</span>
+                  <span className="route-label">Departure</span>
+                  <span className="route-val">{currentTrip ? currentTrip.source : 'Operations Depot'}</span>
                 </div>
               </div>
 
               <div className="route-step">
                 <div className="route-dot destination"></div>
                 <div className="route-info">
-                  <span className="route-label">Destination Arrival</span>
-                  <span className="route-val text-xs">{currentTrip ? currentTrip.destination : 'Idle / Unassigned'}</span>
+                  <span className="route-label">Destination</span>
+                  <span className="route-val">{currentTrip ? currentTrip.destination : 'Idle / Unassigned'}</span>
                 </div>
               </div>
             </div>
 
             {/* Driver Profile */}
             {activeDriver && (
-              <div className="bg-blue-950/20 border border-blue-900/40 p-4 rounded-xl mb-6">
-                <h4 className="font-bold text-[10px] text-blue-400 uppercase tracking-wider mb-2">Assigned Operator</h4>
-                <div className="flex justify-between items-center text-xs">
+              <div className="detail-info-card detail-info-card--driver">
+                <h4 className="detail-info-title">Assigned Operator</h4>
+                <div className="detail-info-row">
                   <div>
-                    <span className="font-bold text-white text-sm">{activeDriver.name}</span>
-                    <p className="text-[10px] text-gray-400 mt-0.5">{activeDriver.licenseCategory} • Exp: {activeDriver.licenseExpiryDate}</p>
+                    <span className="font-semibold text-lg text-[var(--text-main)]">{activeDriver.name}</span>
+                    <p className="detail-info-meta">{activeDriver.licenseCategory} • Exp: {activeDriver.licenseExpiryDate}</p>
                   </div>
-                  <div className="bg-[#1C253B] border border-blue-900/50 px-2.5 py-1.5 rounded text-center">
-                    <span className="text-[8px] text-gray-400 uppercase block font-bold">Safety Score</span>
-                    <span className="font-black text-blue-400">★ {activeDriver.safetyScore.toFixed(1)}</span>
+                  <div className="detail-score-pill">
+                    <span className="detail-score-label">Safety Score</span>
+                    <span className="detail-score-value">★ {activeDriver.safetyScore.toFixed(1)}</span>
                   </div>
                 </div>
               </div>
@@ -771,14 +794,14 @@ const DashboardView = ({ currentRole, dispatchModalOpen, setDispatchModalOpen })
 
             {/* Maintenance shop view */}
             {selectedVehicle.status === 'In Shop' && activeMaintenanceLog && (
-              <div className="bg-amber-950/20 border border-amber-900/40 p-4 rounded-xl mb-6">
-                <h4 className="font-bold text-[10px] text-amber-400 uppercase tracking-wider mb-2">Shop Maintenance Details</h4>
-                <div className="flex gap-2 text-xs text-amber-200">
-                  <AlertTriangle className="text-amber-500 shrink-0" size={16} />
-                  <div>
-                    <span className="font-bold">Issue logged:</span>
-                    <p className="mt-0.5">{activeMaintenanceLog.issue}</p>
-                    <span className="block text-[9px] text-gray-500 mt-1">Date entry: {activeMaintenanceLog.date}</span>
+              <div className="detail-info-card detail-info-card--maintenance">
+                <h4 className="detail-info-title">Shop Maintenance Details</h4>
+                <div className="detail-info-row items-start">
+                  <AlertTriangle className="text-amber-500 shrink-0 mt-1" size={16} />
+                  <div className="flex-1">
+                    <span className="font-semibold text-[var(--text-main)]">Issue logged</span>
+                    <p className="detail-info-meta mt-1">{activeMaintenanceLog.issue}</p>
+                    <span className="block text-caption mt-2">Date entry: {activeMaintenanceLog.date}</span>
                   </div>
                 </div>
               </div>
@@ -827,7 +850,7 @@ const DashboardView = ({ currentRole, dispatchModalOpen, setDispatchModalOpen })
             )}
           </>
         ) : (
-          <div className="flex flex-col items-center justify-center h-full text-gray-500">
+          <div className="detail-empty-state">
             <TrendingUp size={48} className="mb-4" />
             <p className="text-sm">Select an asset from the list to load specifications details.</p>
           </div>

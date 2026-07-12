@@ -29,7 +29,7 @@ const Sidebar = ({ currentTab, setCurrentTab }) => {
               <div className="nav-icon-box">
                 <IconComponent size={18} />
               </div>
-              <span>{item.label.split(' ')[0]}</span> {/* shorten labels on mobile */}
+              <span className={isActive ? 'text-sidebar-active' : 'text-sidebar'}>{item.label.split(' ')[0]}</span> {/* shorten labels on mobile */}
             </button>
           );
         })}
@@ -60,15 +60,15 @@ const Sidebar = ({ currentTab, setCurrentTab }) => {
                 <div className="nav-icon-box">
                   <IconComponent size={18} />
                 </div>
-                <span>{item.label}</span>
+                <span className={isActive ? 'text-sidebar-active' : 'text-sidebar'}>{item.label}</span>
               </button>
             );
           })}
         </div>
         
         <div className="mt-auto w-full pt-4 border-t border-gray-800 px-4">
-          <p className="text-[10px] font-medium text-gray-500 text-center">TransitOps Dashboard v1.0</p>
-          <p className="text-[8px] text-gray-400 text-center mt-1">Hackathon Light Theme Build</p>
+          <p className="text-caption text-center">TransitOps Dashboard v1.0</p>
+          <p className="text-caption text-center mt-1">Hackathon Light Theme Build</p>
         </div>
       </aside>
     </>
